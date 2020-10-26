@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class PlayerAnimEvent : AnimEventBase
 {
+    private PlayerControl PlayerControl;
     protected void Start()
     {
         base.Start();
-        AnimatorEvent.AddAnimationEvent(anim, "LandFx", 0.05f, "SetJamp");
+        PlayerControl = this.GetComponent<PlayerControl>();
+        AnimatorEvent.AddAnimationEvent(anim, "player_ground", 0.00f, "SetJamp");
     }
     public override void SetJamp()
     {
-        gameObject.SetActive(false);
+        PlayerControl.LandFx.transform.position = transform.position + new Vector3(0, -0.74f, 0);
+        PlayerControl.LandFx.SetActive(true);
     }
 }
 

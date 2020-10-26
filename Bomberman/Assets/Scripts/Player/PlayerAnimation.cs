@@ -6,12 +6,12 @@ public class PlayerAnimation : MonoBehaviour
 {
     private Animator anim;
     private Rigidbody2D rb;
-    public PlayerControll PlayerControll;
+    public PlayerControl PlayerControl;
     void Start()
     {
         anim = this.GetComponent<Animator>();
         rb=this.GetComponent<Rigidbody2D>();
-        PlayerControll = this.GetComponent<PlayerControll>();
+        PlayerControl = this.GetComponent<PlayerControl>();
     }
 
     // Update is called once per frame
@@ -19,7 +19,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         anim.SetFloat("speed",Mathf.Abs(rb.velocity.x));
         anim.SetFloat("velocityY", rb.velocity.y);
-        anim.SetBool("jump", PlayerControll.isjump);
-        anim.SetBool("ground", PlayerControll.isGround);
+        anim.SetBool("jump", PlayerControl.isjump);
+        anim.SetBool("ground", PlayerControl.isGround);
     }
 }
