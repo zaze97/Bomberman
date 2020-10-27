@@ -22,6 +22,12 @@ public class PlayerControl : MonoBehaviour
     [Header("特效")]
     public GameObject JumpFx;
     public GameObject LandFx;
+
+    [Header("攻击")]
+    public GameObject BoomPrefab;
+    public float nextAttack = 0;
+    public float attackrote;
+
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
@@ -42,6 +48,11 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetButtonDown("Jump")&&isGround)
         {
             cabJump = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            Attack();
         }
     }
     void Movement()//移动
@@ -69,6 +80,18 @@ public class PlayerControl : MonoBehaviour
             cabJump = false;
         }
     }
+    /// <summary>
+    /// 攻击
+    /// </summary>
+    public void Attack()
+    {
+        if (Time.time > nextAttack)
+        {
+            Instantiate(BoomPrefab,transform.position,BoomPrefab.transform.rotation);
+            nextAttack = Time.time + attackrote;
+        }
+    }
+
     /// <summary>
     /// 物理检测是否在地面
     /// </summary>

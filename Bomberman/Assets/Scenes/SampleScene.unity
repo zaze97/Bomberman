@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 302704922}
   - component: {fileID: 302704924}
   - component: {fileID: 302704925}
-  m_Layer: 9
+  m_Layer: 15
   m_Name: Jump Fx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -800,6 +800,10 @@ MonoBehaviour:
     m_Bits: 256
   JumpFx: {fileID: 302704920}
   LandFx: {fileID: 1668824602}
+  BoomPrefab: {fileID: 5850742778151196244, guid: 909e17ed53b1e4a468cf938b0043608c,
+    type: 3}
+  nextAttack: 0
+  attackrote: 5
 --- !u!95 &884995004
 Animator:
   serializedVersion: 3
@@ -12334,7 +12338,7 @@ GameObject:
   - component: {fileID: 1668824604}
   - component: {fileID: 1668824607}
   - component: {fileID: 1668824605}
-  m_Layer: 9
+  m_Layer: 15
   m_Name: Land FX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
