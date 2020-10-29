@@ -18,12 +18,12 @@ TagManager:
   - 
   - 
   - 
-  - NPC
+  - 
   - Boom
   - FX
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - CheckArea
   - 
   - 
   - 
