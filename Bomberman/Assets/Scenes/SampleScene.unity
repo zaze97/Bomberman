@@ -8912,14 +8912,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1150306909}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 3, y: 1.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 177858503}
   m_Father: {fileID: 2072313383}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!50 &1150306913
 Rigidbody2D:
   serializedVersion: 4
@@ -8976,9 +8976,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1150306909}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 692c8aee1de0d2e4fa3e9b369a61a36f, type: 3}
+  m_Script: {fileID: 11500000, guid: 840bfc297b1c42c4db6c3fc2cddae3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 2
+  PointA: {fileID: 565922793}
+  PointB: {fileID: 1067994448}
+  targetPoint: {fileID: 0}
+  attackList: []
 --- !u!1 &1195285813
 GameObject:
   m_ObjectHideFlags: 0
@@ -13412,7 +13417,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2072313382}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -8.88, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1150306912}
