@@ -26,9 +26,12 @@ public class Boom : MonoBehaviour
     }
     void Update()
     {
-        if (Time.time > startTime + waitTime)
+        if (!m_anim.GetCurrentAnimatorStateInfo(0).IsName("BoomOff"))
         {
-            m_anim.Play("BoomExplotion");
+            if (Time.time > startTime + waitTime)
+            {
+                m_anim.Play("BoomExplotion");
+            }
         }
     }
     public void Explotion()//animEvent
@@ -41,6 +44,11 @@ public class Boom : MonoBehaviour
             Vector3 pos = transform.position - item.transform.position;
 
             item.GetComponent<Rigidbody2D>().AddForce(-pos+Vector3.up* bombForce,ForceMode2D.Impulse);//给他一个力,ForceMode2D.Impulse冲击力
+            Debug.Log(item.tag );
+            if (item.CompareTag("Boom")&& item.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("BoomOff"))
+            {
+                item.GetComponent<Boom>().TurnOn();
+            }
         }
     }
 
@@ -48,6 +56,21 @@ public class Boom : MonoBehaviour
     {
         Destroy(this.gameObject);
     }
+
+    public void TurnOff()
+    {
+        m_anim.Play("BoomOff");
+        gameObject.layer = LayerMask.NameToLayer("NPC");
+    }
+
+    public void TurnOn()
+    {
+        startTime = Time.time;
+        m_anim.Play("Boom");
+        gameObject.layer = LayerMask.NameToLayer("Boom");
+    }
+
+
     /// <summary>
     /// 画出圆
     /// </summary>

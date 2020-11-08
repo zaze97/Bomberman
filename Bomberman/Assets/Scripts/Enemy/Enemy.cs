@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -9,18 +8,42 @@ public class Enemy : MonoBehaviour
     /// </summary>
     EnemyBaseState currentStart;
 
+    public Animator anim;
+    public int animstate;
+
     [Header("移动")]
     public float Speed;
 
     public Transform PointA, PointB;
     public Transform targetPoint;
 
+    [Header("攻击")]
+    public float nextAttack = 0;
+    public float attackRate;//攻击的时间间隔
+    public float attackRange, skillRange;//普通攻击距离和技能攻击距离
+
+
     public List<Transform> attackList = new List<Transform>();//存放可以攻击的物体
+
     /// <summary>
     /// 巡逻状态
     /// </summary>
     public PatrolState patrolState = new PatrolState();
-    void Start()
+    /// <summary>
+    /// 攻击状态
+    /// </summary>
+    public AttackState aAttackState = new AttackState();
+    public virtual void Init()//初始化
+    {
+        anim = GetComponent<Animator>();
+    }
+
+    private void Awake()
+    {
+        Init();
+    }
+
+    protected void Start()
     {
         TransformToState(patrolState);
     }
@@ -29,9 +52,12 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         currentStart.OnUpdate(this);
-
+        anim.SetInteger("state", animstate);
     }
-
+    /// <summary>
+    /// 切换状态
+    /// </summary>
+    /// <param name="State"></param>
     public void TransformToState(EnemyBaseState State)
     {
         currentStart = State;
@@ -43,22 +69,38 @@ public class Enemy : MonoBehaviour
     /// </summary>
     public void MoveToTarget()
     {
-        transform.position = Vector2.MoveTowards(transform.position,targetPoint.position,Speed*Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, targetPoint.position, Speed * Time.deltaTime);
         FilpDirection();
     }
     /// <summary>
     /// 攻击玩家
     /// </summary>
-    public virtual void AttackAction()
+    public void AttackAction()
     {
-
+        if (Vector2.Distance(transform.position, targetPoint.position) < attackRange)
+        {
+            if (Time.time > nextAttack)
+            {
+                anim.SetTrigger("attack");
+                Debug.Log("普通攻击");
+                nextAttack = Time.time + attackRate;
+            }
+        }
     }
     /// <summary>
     /// 对炸弹使用技能
     /// </summary>
     public virtual void SkillAction()
     {
-
+        if (Vector2.Distance(transform.position, targetPoint.position) < skillRange)
+        {
+            if (Time.time > nextAttack)
+            {
+                anim.SetTrigger("skill");
+                Debug.Log("技能攻击");
+                nextAttack = Time.time + attackRate;
+            }
+        }
     }
     /// <summary>
     /// 翻转物体方向
@@ -68,10 +110,10 @@ public class Enemy : MonoBehaviour
         if (transform.position.x < targetPoint.position.x)
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         else
-            transform.rotation = Quaternion.Euler(0f,0f, 0f);
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
     /// <summary>
-    /// 切换目标状态
+    /// 切换目标巡逻点位
     /// </summary>
     public void SwitchPoint()
     {
@@ -87,8 +129,8 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(!attackList.Contains(collision.transform))
-        attackList.Add(collision.transform);
+        if (!attackList.Contains(collision.transform))
+            attackList.Add(collision.transform);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
