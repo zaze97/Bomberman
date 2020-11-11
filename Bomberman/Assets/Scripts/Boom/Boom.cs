@@ -49,6 +49,14 @@ public class Boom : MonoBehaviour
             {
                 item.GetComponent<Boom>().TurnOn();
             }
+            if (item.CompareTag("Player"))
+            {
+                item.GetComponent<IDamageable>().GetHit(3);
+            }
+            if (item.CompareTag("Enemy"))
+            {
+                item.GetComponent<IDamageable>().GetHit(3);
+            }
         }
     }
 

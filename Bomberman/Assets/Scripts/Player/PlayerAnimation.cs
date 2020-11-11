@@ -21,5 +21,17 @@ public class PlayerAnimation : MonoBehaviour
         anim.SetFloat("velocityY", rb.velocity.y);
         anim.SetBool("jump", PlayerControl.isjump);
         anim.SetBool("ground", PlayerControl.isGround);
+
+        anim.SetBool("dead", PlayerControl.isDead);
+    }
+
+    public void GetHit()
+    {
+        anim.SetTrigger("hit");
+    }
+
+    public Animator GetAnim()
+    {
+        return anim;
     }
 }

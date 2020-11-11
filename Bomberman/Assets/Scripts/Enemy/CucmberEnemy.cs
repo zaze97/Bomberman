@@ -1,4 +1,4 @@
-﻿public class CucmberEnemy : Enemy
+﻿public class CucmberEnemy : Enemy, IDamageable
 {
 #pragma warning disable CS0108 // 成员隐藏继承的成员；缺少关键字 new
     protected void Start()
@@ -10,5 +10,17 @@
     public void SetOff()//AnimationEvent
     {
         targetPoint.GetComponent<Boom>().TurnOff();
+    }
+
+    public void GetHit(float damage)
+    {
+
+        health -= damage;
+        anim.SetTrigger("hit");
+        if (health < 1)
+        {
+            health = 0;
+            isDead = true;
+        }
     }
 }

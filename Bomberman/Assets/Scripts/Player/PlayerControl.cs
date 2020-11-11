@@ -1,10 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerControl : MonoBehaviour
+public class PlayerControl : MonoBehaviour, IDamageable
 {
     Rigidbody2D rb;
+    PlayerAnimation playerain;
+    [Header("玩家状态")]
+    public float health;
+    public bool isDead;
+
+
     public float speed;//速度
     public float jumpForce;//跳跃速度
 
@@ -31,21 +35,30 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
+        playerain = this.GetComponent<PlayerAnimation>();
     }
 
     void Update()
     {
+        if (isDead)
+            return;
         CheckInput();
     }
     private void FixedUpdate()//使用物理引擎使用FixUpdate
     {
+        if (isDead)
+        {
+            rb.velocity = Vector2.zero;
+            return;
+        }
+            
         PhysicsCheck();
         Movement();
         Jump();
     }
     void CheckInput()
     {
-        if (Input.GetButtonDown("Jump")&&isGround)
+        if (Input.GetButtonDown("Jump") && isGround)
         {
             cabJump = true;
         }
@@ -59,11 +72,11 @@ public class PlayerControl : MonoBehaviour
     {
         //float horizontalInput = Input.GetAxis("Horizontal");//缓慢移动（包含小数）
         float horizontalInput = Input.GetAxisRaw("Horizontal");//缓慢移动（不包含小数）
-        rb.velocity = new Vector2(horizontalInput*speed,rb.velocity.y);//进行移动
+        rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);//进行移动
 
         if (horizontalInput != 0)
         {
-            transform.localScale = new Vector3(horizontalInput,1,1);
+            transform.localScale = new Vector3(horizontalInput, 1, 1);
         }
 
     }
@@ -74,7 +87,7 @@ public class PlayerControl : MonoBehaviour
         {
             isjump = true;
             JumpFx.SetActive(true);
-            JumpFx.transform.position = transform.position +new Vector3(0,-0.58f,0);
+            JumpFx.transform.position = transform.position + new Vector3(0, -0.58f, 0);
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             rb.gravityScale = 4;
             cabJump = false;
@@ -87,7 +100,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (Time.time > nextAttack)
         {
-            Instantiate(BoomPrefab,transform.position,BoomPrefab.transform.rotation);
+            Instantiate(BoomPrefab, transform.position, BoomPrefab.transform.rotation);
             nextAttack = Time.time + attackrote;
         }
     }
@@ -110,5 +123,18 @@ public class PlayerControl : MonoBehaviour
     public void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(GroundCheck.position, checkRadius);
+    }
+
+    public void GetHit(float damage)
+    {
+        if (!playerain.GetAnim().GetCurrentAnimatorStateInfo(1).IsName("player_hit")){
+            health -= damage;
+            playerain.GetHit();
+            if (health < 1)
+            {
+                health = 0;
+                isDead = true;
+            }
+        }
     }
 }

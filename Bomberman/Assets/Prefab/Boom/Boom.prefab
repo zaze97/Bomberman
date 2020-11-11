@@ -159,4 +159,4 @@ MonoBehaviour:
   bombForce: 10
   targetMask:
     serializedVersion: 2
-    m_Bits: 156160
+    m_Bits: 221696

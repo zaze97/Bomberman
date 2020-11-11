@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -10,6 +11,9 @@ public class Enemy : MonoBehaviour
 
     public Animator anim;
     public int animstate;
+    [Header("敌人状态")]
+    public float health;
+    public bool isDead;
 
     [Header("移动")]
     public float Speed;
@@ -22,6 +26,10 @@ public class Enemy : MonoBehaviour
     public float attackRate;//攻击的时间间隔
     public float attackRange, skillRange;//普通攻击距离和技能攻击距离
 
+    /// <summary>
+    /// 警告标示
+    /// </summary>
+    private GameObject alarmsign;
 
     public List<Transform> attackList = new List<Transform>();//存放可以攻击的物体
 
@@ -36,6 +44,7 @@ public class Enemy : MonoBehaviour
     public virtual void Init()//初始化
     {
         anim = GetComponent<Animator>();
+        alarmsign = transform.GetChild(0).gameObject;
     }
 
     private void Awake()
@@ -51,8 +60,13 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        anim.SetBool("dead", isDead);
+        if (isDead)
+            return;
         currentStart.OnUpdate(this);
         anim.SetInteger("state", animstate);
+
+
     }
     /// <summary>
     /// 切换状态
@@ -136,5 +150,17 @@ public class Enemy : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         attackList.Remove(collision.transform);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        StartCoroutine(Worring());
+    }
+
+    IEnumerator Worring()
+    {
+        alarmsign.SetActive(true);
+        yield return new WaitForSeconds(alarmsign.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+        alarmsign.SetActive(false);
     }
 }
