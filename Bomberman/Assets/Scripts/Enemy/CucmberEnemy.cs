@@ -5,7 +5,7 @@
 #pragma warning restore CS0108 // 成员隐藏继承的成员；缺少关键字 new
     {
         base.Start();
-        AnimatorEvent.AddAnimationEvent(anim, "Blowthewick", 0.08f, "SetOff");
+        AnimatorEvent.AddAnimationEvent(anim, "Skill", 0.08f, "SetOff");
     }
     public void SetOff()//AnimationEvent
     {

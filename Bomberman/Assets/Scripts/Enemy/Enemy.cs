@@ -9,16 +9,17 @@ public class Enemy : MonoBehaviour
     /// </summary>
     EnemyBaseState currentStart;
 
+    [HideInInspector]
     public Animator anim;
-    public int animstate;
+
     [Header("敌人状态")]
     public float health;
     public bool isDead;
 
     [Header("移动")]
     public float Speed;
-
-    public Transform PointA, PointB;
+    public int animstate;
+    private Transform PointA, PointB;
     public Transform targetPoint;
 
     [Header("攻击")]
@@ -44,6 +45,8 @@ public class Enemy : MonoBehaviour
     public virtual void Init()//初始化
     {
         anim = GetComponent<Animator>();
+        PointA = transform.parent.FindChild<Transform>("PointA");
+        PointB = transform.parent.FindChild<Transform>("PointB");
         alarmsign = transform.GetChild(0).gameObject;
     }
 

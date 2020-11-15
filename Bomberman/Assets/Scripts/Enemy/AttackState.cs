@@ -32,6 +32,7 @@ public class AttackState : EnemyBaseState
         }
 
         if (enemy.targetPoint.CompareTag("Player"))//他的标签是什么
+            if(enemy.targetPoint?.GetComponent<PlayerControl>().health>0)
             enemy.AttackAction();
         if (enemy.targetPoint.CompareTag("Boom"))
             enemy.SkillAction();
