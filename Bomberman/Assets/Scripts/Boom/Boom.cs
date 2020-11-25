@@ -44,7 +44,6 @@ public class Boom : MonoBehaviour
             Vector3 pos = transform.position - item.transform.position;
 
             item.GetComponent<Rigidbody2D>().AddForce(-pos+Vector3.up* bombForce,ForceMode2D.Impulse);//给他一个力,ForceMode2D.Impulse冲击力
-            Debug.Log(item.tag );
             if (item.CompareTag("Boom")&& item.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("BoomOff"))
             {
                 item.GetComponent<Boom>().TurnOn();

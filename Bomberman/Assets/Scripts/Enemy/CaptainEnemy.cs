@@ -1,16 +1,49 @@
-﻿public class CaptainEnemy : Enemy, IDamageable
+﻿using UnityEngine;
+
+public class CaptainEnemy : Enemy, IDamageable
 {
-#pragma warning disable CS0108 // 成员隐藏继承的成员；缺少关键字 new
-    protected void Start()
-#pragma warning restore CS0108 // 成员隐藏继承的成员；缺少关键字 new
+
+    SpriteRenderer Sprite;
+    protected override void Start()
     {
         base.Start();
-        AnimatorEvent.AddAnimationEvent(anim, "Skill", 0.08f, "SetOff");
     }
-    public void SetOff()//AnimationEvent
+    protected override void Update()
     {
-        targetPoint.GetComponent<Boom>().TurnOff();
+        base.Update();
+
+        if (animstate == 0)
+        {
+            Sprite.flipX = false;
+        }
     }
+    public override void Init()
+    {
+        base.Init();
+        Sprite = GetComponent<SpriteRenderer>();
+    }
+    public override void SkillAction()
+    {
+        base.SkillAction();
+        if (anim.GetCurrentAnimatorStateInfo(1).IsName("Skill"))
+        {
+            Sprite.flipX = true;
+            if (transform.position.x > targetPoint.position.x)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, transform.position + Vector3.right, Speed * 3 * Time.deltaTime);
+            }
+            else
+            {
+                transform.position = Vector2.MoveTowards(transform.position, transform.position + Vector3.left, Speed * 3 * Time.deltaTime);
+            }
+        }
+        else
+        {
+            Sprite.flipX = false;
+        }
+    }
+
+
 
     public void GetHit(float damage)
     {

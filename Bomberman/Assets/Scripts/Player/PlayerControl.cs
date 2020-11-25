@@ -129,6 +129,7 @@ public class PlayerControl : MonoBehaviour, IDamageable
     {
         if (!playerain.GetAnim().GetCurrentAnimatorStateInfo(1).IsName("player_hit")){
             health -= damage;
+            UIManager.instance.UpdateHealth(health);
             playerain.GetHit();
             if (health < 1)
             {

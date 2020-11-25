@@ -1,15 +1,17 @@
 ﻿public class WhaleEnemy : Enemy, IDamageable
 {
-#pragma warning disable CS0108 // 成员隐藏继承的成员；缺少关键字 new
-    protected void Start()
-#pragma warning restore CS0108 // 成员隐藏继承的成员；缺少关键字 new
+    public float scale;
+    protected override void Start()
     {
         base.Start();
-        AnimatorEvent.AddAnimationEvent(anim, "Skill", 0.08f, "SetOff");
+        AnimatorEvent.AddAnimationEvent(anim, "Swalow(Bomb)", 0.08f, "Swalow");
     }
-    public void SetOff()//AnimationEvent
+    public void Swalow()//AnimationEvent
     {
         targetPoint.GetComponent<Boom>().TurnOff();
+        targetPoint.gameObject.SetActive(false);
+        transform.localScale = scale * transform.localScale;
+        skillRange += 0.4f;
     }
 
     public void GetHit(float damage)

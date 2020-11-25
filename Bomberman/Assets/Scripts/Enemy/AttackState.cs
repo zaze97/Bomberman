@@ -11,6 +11,8 @@ public class AttackState : EnemyBaseState
 
     public override void OnUpdate(Enemy enemy)
     {
+        if (enemy.hasbomb)
+            return;
         if (enemy.attackList.Count == 0)
         {
             enemy.TransformToState(enemy.patrolState);

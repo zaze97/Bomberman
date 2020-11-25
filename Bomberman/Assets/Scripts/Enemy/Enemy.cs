@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     [Header("敌人状态")]
     public float health;
     public bool isDead;
+    public bool hasbomb;
 
     [Header("移动")]
     public float Speed;
@@ -55,13 +56,13 @@ public class Enemy : MonoBehaviour
         Init();
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
         TransformToState(patrolState);
     }
 
 
-    void Update()
+    protected virtual void Update()
     {
         anim.SetBool("dead", isDead);
         if (isDead)
@@ -146,7 +147,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (!attackList.Contains(collision.transform))
+        if (!attackList.Contains(collision.transform)&&!hasbomb&&!isDead&&!GameManager.instance.gameover)//添加碰撞到的物体
             attackList.Add(collision.transform);
     }
 
@@ -157,6 +158,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(!isDead && !GameManager.instance.gameover)
         StartCoroutine(Worring());
     }
 
