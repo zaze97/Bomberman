@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour
         PointA = transform.parent.FindChild<Transform>("PointA");
         PointB = transform.parent.FindChild<Transform>("PointB");
         alarmsign = transform.GetChild(0).gameObject;
+        //GameManager.instance.IsEnemy(this);
     }
 
     private void Awake()
@@ -58,6 +59,7 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
+        GameManager.instance.IsEnemy(this);
         TransformToState(patrolState);
     }
 
@@ -66,7 +68,10 @@ public class Enemy : MonoBehaviour
     {
         anim.SetBool("dead", isDead);
         if (isDead)
+        {
+            GameManager.instance.DesEnemy(this);
             return;
+        }
         currentStart.OnUpdate(this);
         anim.SetInteger("state", animstate);
 

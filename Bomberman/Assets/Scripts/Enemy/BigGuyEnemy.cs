@@ -20,6 +20,7 @@ public class BigGuyEnemy : Enemy, IDamageable
     {
         if (targetPoint.CompareTag("Boom")&&!hasbomb)
         {
+            targetPoint.gameObject.layer = LayerMask.NameToLayer("NPC");//将炸弹的标签改为NPC。放置捡起炸弹产生位移
             targetPoint.gameObject.transform.position = pickupPoint.position;
             targetPoint.SetParent(pickupPoint);
             targetPoint.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
@@ -35,9 +36,10 @@ public class BigGuyEnemy : Enemy, IDamageable
         {
             targetPoint.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             targetPoint.SetParent(transform.parent.parent);
-
             if (FindObjectOfType<PlayerControl>().gameObject.transform.position.x - transform.position.x < 0)//找到有这个组件的物体
+            {
                 targetPoint.GetComponent<Rigidbody2D>().AddForce(new Vector2(-1, 1) * power, ForceMode2D.Impulse);
+            }
             else
             {
                 targetPoint.GetComponent<Rigidbody2D>().AddForce(new Vector2(1, 1) * power, ForceMode2D.Impulse);
@@ -47,7 +49,6 @@ public class BigGuyEnemy : Enemy, IDamageable
     }
     public void GetHit(float damage)
     {
-
         health -= damage;
         anim.SetTrigger("hit");
         if (health < 1)

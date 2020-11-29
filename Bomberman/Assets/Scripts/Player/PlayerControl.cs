@@ -36,6 +36,9 @@ public class PlayerControl : MonoBehaviour, IDamageable
     {
         rb = this.GetComponent<Rigidbody2D>();
         playerain = this.GetComponent<PlayerAnimation>();
+        health = GameManager.instance.LoadHealth();
+        UIManager.instance.UpdateHealth(health);
+        GameManager.instance.IsPlayer(this);
     }
 
     void Update()
@@ -78,7 +81,11 @@ public class PlayerControl : MonoBehaviour, IDamageable
         {
             transform.localScale = new Vector3(horizontalInput, 1, 1);
         }
-
+        //通过旋转
+        //if (horizontalInput > 0)
+        //    transform.eulerAngles = new Vector3(0, 0, 0);
+        //else
+        //    transform.eulerAngles = new Vector3(0, 180, 0);
     }
 
     void Jump()//跳跃

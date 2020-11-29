@@ -41,6 +41,7 @@ public class Boom : MonoBehaviour
         rb.gravityScale = 0;//重力更改为0
         foreach (var item in aroundObjects)
         {
+
             Vector3 pos = transform.position - item.transform.position;
 
             item.GetComponent<Rigidbody2D>().AddForce(-pos+Vector3.up* bombForce,ForceMode2D.Impulse);//给他一个力,ForceMode2D.Impulse冲击力
